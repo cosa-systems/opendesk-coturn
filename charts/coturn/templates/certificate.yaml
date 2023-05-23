@@ -1,0 +1,17 @@
+{{- if .Values.coturn.tls.enabled -}}
+---
+apiVersion: "cert-manager.io/v1"
+kind: "Certificate"
+metadata:
+  name: "{{ include "common.names.fullname" . }}"
+  labels:
+    {{- include "common.labels.standard" . | nindent 4 }}
+spec:
+  dnsNames:
+    - {{ .Values.coturn.realm | quote }}
+  issuerRef:
+    kind: "{{ .Values.issuerRef.kind }}"
+    name: "{{ .Values.issuerRef.name }}"
+  secretName: "{{ .Release.Name }}-tls"
+...
+{{- end }}

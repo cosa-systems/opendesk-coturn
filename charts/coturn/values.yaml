@@ -1,0 +1,111 @@
+# Default values for coturn.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+## Define image settings
+#
+image:
+  registry: "docker.io"
+  repository: "coturn/coturn"
+  pullPolicy: "Always"
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "4.6.2-alpine"
+
+imagePullSecrets:
+  - name: dependency-registry
+nameOverride: ""
+fullnameOverride: ""
+
+# Issuer references are always required.
+# Needed for requesting the TLS Certificate
+#
+issuerRef:
+  name: "k8s-main-souvap-univention-de-letsencrypt-live"
+  # We can reference ClusterIssuers by changing the kind here.
+  # The default value is Issuer (i.e. a locally namespaced Issuer)
+  kind: "ClusterIssuer"
+
+coturn:
+  externalIP:
+  listeningPort: 3478
+  tls:
+    enabled: true
+    listeningPort: 5349
+  # alt Ports are used for RFC 5780 support
+  #altListeningPort: 0
+  #altTlsListeningPort: 0
+  # Lower and upper bounds of the UDP relay endpoints:
+  # (default values are 49152 and 65535)
+  minPort: 49152
+  maxPort: 65535
+  verbose: false
+  authentication:
+    enabled: true
+    secret:
+    user:
+    password:
+  prometheus: true
+  realm: "turn.develop.souvap-univention.de"
+
+service:
+  # to which node port is the external Listening Port fowarded?
+  listeningNodePort: 3478
+  # to which Node Port is the external TLS Listening Port forwarded?
+  tlsListeningNodePort: 5349
+  # minimal NodePort, to which the UDP Relay Endpoints are forwarded
+  minPort: 49152
+  sessionAffinity:
+    enabled: false
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  # If a namespaceWatcher is created, it will be created anyways.
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext:
+  # set volume mounts group permission to vmail!
+  # default is 1000
+  fsGroup: 101
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

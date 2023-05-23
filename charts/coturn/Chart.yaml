@@ -1,0 +1,13 @@
+---
+apiVersion: "v2"
+name: "coturn"
+description: "A Helm chart for running coturn"
+home: "https://github.com/coturn/coturn"
+type: "application"
+version: "0.0.0"
+appVersion: "4.6.2"
+dependencies:
+  - name: "common"
+    repository: "https://charts.bitnami.com/bitnami"
+    version: "^2.2.4"
+...

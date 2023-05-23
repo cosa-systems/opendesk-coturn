@@ -1,0 +1,83 @@
+---
+apiVersion: {{ include "common.capabilities.deployment.apiVersion" . | quote }}
+kind: "Deployment"
+metadata:
+  name: {{ include "common.names.fullname" . | quote }}
+  labels:
+    {{- include "common.labels.standard" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "common.labels.matchLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "common.labels.standard" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "common.names.fullname" . | quote }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+        {{- if .Values.coturn.tls.enabled }}
+        - name: "tls"
+          secret:
+            secretName: "{{ .Release.Name }}-tls"
+        {{- end }}
+        - name: "config"
+          configMap:
+            name: "{{ include "common.names.fullname" . }}"
+      containers:
+        - name: "{{ .Chart.Name }}"
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}{{ if .Values.image.sha256 }}@sha256:{{ .Values.image.sha256 }}{{ else }}:{{ .Values.image.tag }}{{ end }}"
+          # image: "{{ .Values.image.url }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          # ports:
+          #   - name: "listeningPort"
+          #     containerPort: {{ .Values.coturn.listeningPort }}
+          #     protocol: {{ $value.protocol | quote }}
+          readinessProbe:
+            tcpSocket:
+              port: {{ .Values.coturn.listeningPort }}
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: {{ .Values.coturn.listeningPort }}
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            {{- if .Values.coturn.tls.enabled }}
+            - name: "tls"
+              mountPath: "/etc/tls"
+            {{- end }}
+            - name: "config"
+              mountPath: "/etc/coturn"
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+...

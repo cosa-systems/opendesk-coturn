@@ -1,0 +1,48 @@
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: "{{ include "common.names.fullname" . }}"
+  labels:
+    {{- include "common.labels.standard" . | nindent 4 }}
+spec:
+  type: "NodePort"
+  {{- if .Values.service.sessionAffinity.enabled }}
+  sessionAffinity: "ClientIP"
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: {{ .Values.service.sessionAffinity.timeoutSeconds }}
+  {{- end }}
+  ports:
+    - port: {{ .Values.coturn.listeningPort }}
+      targetPort: {{ .Values.coturn.listeningPort }}
+      protocol: "TCP"
+      name: "listening-port-tcp"
+      nodePort: {{ .Values.service.listeningNodePort }}
+    - port: {{ .Values.coturn.listeningPort }}
+      targetPort: {{ .Values.coturn.listeningPort }}
+      protocol: "UDP"
+      name: "listening-port-udp"
+      nodePort: {{ .Values.service.listeningNodePort }}
+    {{- if and .Values.coturn.tls.enabled .Values.coturn.tls.listeningPort }}
+    - port: {{ .Values.coturn.tls.listeningPort }}
+      targetPort: {{ .Values.coturn.tls.listeningPort }}
+      protocol: "TCP"
+      name: "tls-listening-port-tcp"
+      nodePort: {{ .Values.service.tlsListeningNodePort }}
+    - port: {{ .Values.coturn.tls.listeningPort }}
+      targetPort: {{ .Values.coturn.tls.listeningPort }}
+      protocol: "UDP"
+      name: "tls-listening-port-udp"
+      nodePort: {{ .Values.service.tlsListeningNodePort }}
+    {{- end }}
+    {{- range $i, $port := untilStep (.Values.coturn.minPort | int) (.Values.coturn.maxPort | int) 1 }}
+    - port: {{ $port }}
+      targetPort: {{ $port }}
+      protocol: "UDP"
+      name: "communication-port-{{ $i }}"
+      nodePort: {{ add $i $.Values.coturn.minPort }}
+    {{- end }}
+  selector:
+    {{- include "common.labels.matchLabels" . | nindent 4 }}
+...
