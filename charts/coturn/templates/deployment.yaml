@@ -48,7 +48,7 @@ spec:
           # ports:
           #   - name: "listeningPort"
           #     containerPort: {{ .Values.coturn.listeningPort }}
-          #     protocol: {{ $value.protocol | quote }}
+          #     protocol: "TCP"
           readinessProbe:
             tcpSocket:
               port: {{ .Values.coturn.listeningPort }}
