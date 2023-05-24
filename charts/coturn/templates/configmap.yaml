@@ -149,9 +149,6 @@ data:
     # By default no credentials mechanism is used (any user allowed).
     #
     #lt-cred-mech
-    {{- if .Values.coturn.authentication }}
-    lt-cred-mech
-    {{- end }}
 
     # This option is the opposite of lt-cred-mech.
     # (TURN Server with no-auth option allows anonymous access).
@@ -222,10 +219,12 @@ data:
     #
     #static-auth-secret=north
     {{- if .Values.coturn.authentication.secret }}
+    use-auth-secret
     static-auth-secret={{ .Values.coturn.authentication.secret }}
     {{- end }}
 
-    {{- if and .Values.coturn.authentication.user .Values.coturn.authentication.password }}
+    {{- if and (not .Values.coturn.authentication.secret) (and .Values.coturn.authentication.user .Values.coturn.authentication.password) }}
+    lt-cred-mech
     user={{ .Values.coturn.authentication.user }}:{{ .Values.coturn.authentication.password }}
     {{- end }}
 
@@ -435,7 +434,7 @@ data:
     # Examples:
     # denied-peer-ip=83.166.64.0-83.166.95.255
     # allowed-peer-ip=83.166.68.45
-    denied-peer-ip=10.0.0.0-10.255.255.255
+    # denied-peer-ip=10.0.0.0-10.255.255.255
 
     # Require authentication of the STUN Binding request.
     # By default, the clients are allowed anonymous access to the STUN Binding functionality.

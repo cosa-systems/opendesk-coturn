@@ -49,8 +49,9 @@ coturn:
   maxPort: 65535
   verbose: false
   authentication:
-    enabled: true
+    # use either a secret (static-auth-secret)
     secret:
+    # or a user/password combination, but not both!
     user:
     password:
   prometheus: true

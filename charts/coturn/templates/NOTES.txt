@@ -1,7 +1,7 @@
 coturn deployed and running:
 
 - Listening: {{ .Values.coturn.externalIP }}:{{ .Values.coturn.listeningPort }} (UDP & TCP)
-{{- if and .Values.coturn.tls.enabled .Values.coturn.tls.secretName }}
+{{- if and .Values.coturn.tls.enabled }}
 - Listening (TLS): {{ .Values.coturn.externalIP }}:{{ .Values.coturn.tls.listeningPort }} (UDP & TCP)
 {{- end }}
 minimum communication port: {{ .Values.coturn.minPort }}/UDP
