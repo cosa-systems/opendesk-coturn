@@ -1,8 +1,20 @@
+{{/*
+SPDX-FileCopyrightText: 2023 Bundesministerium des Innern und für Heimat, PG ZenDiS "Projektgruppe für Aufbau ZenDiS"
+SPDX-License-Identifier: Apache-2.0
+*/}}
 ---
 kind: "ConfigMap"
 apiVersion: "v1"
 metadata:
   name: "{{ include "common.names.fullname" . }}"
+  labels:
+    {{- include "common.labels.standard" . | nindent 4 }}
+    {{- if .Values.commonLabels }}
+    {{- include "common.tplvalues.render" ( dict "value" .Values.commonLabels "context" $ ) | nindent 4 }}
+    {{- end }}
+  {{- if .Values.commonAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.commonAnnotations "context" $ ) | nindent 4 }}
+  {{- end }}
 data:
   turnserver.conf: |
     # Coturn TURN SERVER configuration file
@@ -233,6 +245,9 @@ data:
     # The default value is the realm name.
     #
     #server-name=blackdow.carleon.gov
+    {{- if .Values.coturn.serverName }}
+    server-name={{ .Values.coturn.serverName | quote }}
+    {{- end }}
 
     # Flag that allows oAuth authentication.
     #
@@ -447,10 +462,10 @@ data:
 
     # TURN server allocates address family according TURN client requested address family.
     # If address family not requested explicitly by the client, then it falls back to this default.
-    # The standard RFC explicitly define that this default must be IPv4, 
-    # so use other option values with care! 
-    # Possible values: "ipv4" or "ipv6" or "keep" 
-    # "keep" sets the allocation default address family according to 
+    # The standard RFC explicitly define that this default must be IPv4,
+    # so use other option values with care!
+    # Possible values: "ipv4" or "ipv6" or "keep"
+    # "keep" sets the allocation default address family according to
     # the TURN client allocation request connection address family.
     #
     #allocation-default-address-family="ipv4"
@@ -557,5 +572,4 @@ data:
     # binding responses.
     #
     response-origin-only-with-rfc5780
-
 ...

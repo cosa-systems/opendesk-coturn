@@ -1,63 +1,34 @@
-# coturn Helm Chart
+<!--
+SPDX-FileCopyrightText: 2023 Bundesministerium des Innern und für Heimat, PG ZenDiS "Projektgruppe für Aufbau ZenDiS"
 
-This Helm chart provides a coturn server within SouvAP.
+SPDX-License-Identifier: Apache-2.0
+-->
+# Sovereign Workplace coturn Helm Chart
+
+This repository contains a Helm chart for deploying coturn.
+It is mainly used by Jitsi.
 
 
-## TL;DR
-
-```bash
-helm repo add coturn https://gitlab.souvap-univention.de/api/v4/projects/113/packages/helm/stable
-
-helm upgrade -i --create-namespace --namespace="${NAMESPACE}" \
-    -f values-develop.yaml \
-    --set-string coturn.externalIP="1.2.3.4" \
-    --set-string coturn.realm="${REALM}" \
-    --set-string coturn.authentication.user="${USER}" \
-    --set-string coturn.authentication.password="${PASSWORD}" \
-    turn coturn/coturn/
-```
-
-## Introduction
-
-This chart is used to deploy coturn within SouvAP.
 
 ## Prerequisites
-- Kubernetes 1.16+
+
+Before you begin, ensure you have met the following requirements:
+
+- Kubernetes 1.21+
 - Helm 3.0.0+
 - PV provisioner support in the underlying infrastructure
 
-## Installing the Chart
 
-To install the chart with the release name coturn:
+## Documentation
 
-```bash
-helm upgrade -i --create-namespace --namespace="${NAMESPACE}" \
-    -f values-develop.yaml \
-    --set-string coturn.externalIP="1.2.3.4" \
-    --set-string coturn.realm="${REALM}" \
-    --set-string coturn.authentication.user="${USER}" \
-    --set-string coturn.authentication.password="${PASSWORD}" \
-    turn coturn/coturn/
-```
-values.develop example:
-```yaml
-coturn:
-  minPort: 30500
-  maxPort: 30550
-  verbose: true
-  realm: "turn.develop.souvap-univention.de"
+The documentation is placed in the README of each helm chart:
 
-service:
-  listeningNodePort: 31478
-  tlsListeningNodePort: 31549
-  minPort: 30500
+- [coturn](charts/coturn)
 
-```
+## License
 
-## Uninstalling the Chart
+This project uses the following license: Apache-2.0
 
-To install the release with name coturn:
+## Copyright
 
-```bash
-helm uninstall coturn
-```
+Copyright © 2023 Bundesministerium des Innern und für Heimat, PG ZenDiS "Projektgruppe für Aufbau ZenDiS"

@@ -1,13 +1,21 @@
+# SPDX-FileCopyrightText: 2023 Bundesministerium des Innern und für Heimat, PG ZenDiS "Projektgruppe für Aufbau ZenDiS"
+# SPDX-License-Identifier: Apache-2.0
 ---
+annotations:
+  category: "Communication"
+  licenses: "Apache-2.0"
 apiVersion: "v2"
-name: "coturn"
-description: "A Helm chart for running coturn"
-home: "https://github.com/coturn/coturn"
-type: "application"
-version: "0.0.0"
-appVersion: "4.6.2"
 dependencies:
   - name: "common"
+    version: "^2.x.x"
     repository: "https://charts.bitnami.com/bitnami"
-    version: "^2.2.4"
+description: "A Helm chart for running coturn"
+home: "https://github.com/coturn/coturn"
+keywords:
+  - "Communication"
+  - "coturn"
+name: "coturn"
+type: "application"
+version: "1.0.0"
+appVersion: "4.6.2"
 ...
