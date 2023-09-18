@@ -59,7 +59,7 @@ spec:
       {{- if .Values.podSecurityContext.enabled }}
       securityContext: {{- omit .Values.podSecurityContext "enabled" | toYaml | nindent 8 }}
       {{- end }}
-      {{- if or .Values.serviceAccount.create .Values.namespaceWatcher.enabled }}
+      {{- if or .Values.serviceAccount.create }}
       serviceAccountName: {{ include "common.names.fullname" . | quote }}
       {{- end }}
       {{- if .Values.terminationGracePeriodSeconds }}
