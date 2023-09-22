@@ -1,3 +1,10 @@
+## [1.3.2](https://gitlab.souvap-univention.de/souvap/tooling/charts/coturn/compare/v1.3.1...v1.3.2) (2023-09-22)
+
+
+### Bug Fixes
+
+* Remove NamespaceWatcher from Deployment ([c6af69f](https://gitlab.souvap-univention.de/souvap/tooling/charts/coturn/commit/c6af69f00b54a5a0d6349a15c2c9ed1c7e5ea55a))
+
 ## [1.3.1](https://gitlab.souvap-univention.de/souvap/tooling/charts/coturn/compare/v1.3.0...v1.3.1) (2023-09-18)
 
 
