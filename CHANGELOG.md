@@ -1,3 +1,10 @@
+# [1.4.0](https://gitlab.souvap-univention.de/souvap/tooling/charts/coturn/compare/v1.3.2...v1.4.0) (2023-09-25)
+
+
+### Features
+
+* **coturn:** Improve security settings ([f1e2416](https://gitlab.souvap-univention.de/souvap/tooling/charts/coturn/commit/f1e24162abec155494f780a1217ca748ebdd097c))
+
 ## [1.3.2](https://gitlab.souvap-univention.de/souvap/tooling/charts/coturn/compare/v1.3.1...v1.3.2) (2023-09-22)
 
 

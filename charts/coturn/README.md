@@ -41,8 +41,13 @@ helm install my-release coturn/coturn
 | commonAnnotations | object | `{}` | Additional custom annotations to add to all deployed objects. |
 | commonLabels | object | `{}` | Additional custom labels to add to all deployed objects. |
 | containerSecurityContext.allowPrivilegeEscalation | bool | `false` | Enable container privileged escalation. |
+| containerSecurityContext.capabilities | object | `{"drop":["ALL"]}` | Security capabilities for container. |
 | containerSecurityContext.enabled | bool | `true` | Enable security context. |
 | containerSecurityContext.readOnlyRootFilesystem | bool | `true` | Mounts the container's root filesystem as read-only. |
+| containerSecurityContext.runAsGroup | int | `65534` | Process group id. |
+| containerSecurityContext.runAsNonRoot | bool | `true` | Run container as user. |
+| containerSecurityContext.runAsUser | int | `65534` | Process user id. |
+| containerSecurityContext.seccompProfile.type | string | `"RuntimeDefault"` | Disallow custom Seccomp profile by setting it to RuntimeDefault. |
 | coturn.authentication.password | string | `nil` | specify password for user |
 | coturn.authentication.secret | string | `nil` | specify static-auth-secret don't use user/password when set! |
 | coturn.authentication.user | string | `nil` | specify user and password instead of a secret don't sepcify a secret when user/password is set! |
@@ -65,7 +70,7 @@ helm install my-release coturn/coturn
 | image.imagePullPolicy | string | `"IfNotPresent"` | Define an ImagePullPolicy.  Ref.: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy  "IfNotPresent" => The image is pulled only if it is not already present locally. "Always" => Every time the kubelet launches a container, the kubelet queries the container image registry to             resolve the name to an image digest. If the kubelet has a container image with that exact digest cached             locally, the kubelet uses its cached image; otherwise, the kubelet pulls the image with the resolved             digest, and uses that image to launch the container. "Never" => The kubelet does not try fetching the image. If the image is somehow already present locally, the            kubelet attempts to start the container; otherwise, startup fails  |
 | image.registry | string | `"dockeri.io"` | Container registry address. This setting has higher precedence than global.registry. |
 | image.repository | string | `"coturn/coturn"` | Container repository string. |
-| image.tag | string | `"4.6.2-alpine"` |  |
+| image.tag | string | `"4.6.2-alpine@sha256:cecbd85f5b27ce5bf00901192c9fe565c4be631f285411e5625427372a3a2f8b"` |  |
 | imagePullSecrets | list | `[]` | Credentials to fetch images from private registry Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/  imagePullSecrets:   - "docker-registry"  |
 | lifecycleHooks | object | `{}` | Lifecycle to automate configuration before or after startup |
 | livenessProbe.enabled | bool | `true` | Enables kubernetes LivenessProbe. |
@@ -80,8 +85,7 @@ helm install my-release coturn/coturn
 | podLabels | object | `{}` | Pod Labels. Ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/ |
 | podSecurityContext.enabled | bool | `true` | Enable security context. |
 | podSecurityContext.fsGroup | int | `65534` | If specified, all processes of the container are also part of the supplementary group |
-| podSecurityContext.runAsGroup | int | `65534` | Process group id |
-| podSecurityContext.runAsUser | int | `65534` | Process user id |
+| podSecurityContext.fsGroupChangePolicy | string | `"Always"` | Change ownership and permission of the volume before being exposed inside a Pod. |
 | readinessProbe.enabled | bool | `true` | Enables kubernetes ReadinessProbe. |
 | readinessProbe.failureThreshold | int | `10` | Number of failed executions until container is terminated. |
 | readinessProbe.initialDelaySeconds | int | `15` | Delay after container start until ReadinessProbe is executed. |
