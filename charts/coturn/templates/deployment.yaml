@@ -78,7 +78,6 @@ spec:
         - name: {{ .Chart.Name | quote }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          # image: "{{ coalesce .Values.image.registry .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           image: {{ printf "%s/%s:%s" (coalesce .Values.image.registry .Values.global.registry) .Values.image.repository .Values.image.tag | quote }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
