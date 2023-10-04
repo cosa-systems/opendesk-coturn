@@ -1,3 +1,10 @@
+## [1.4.1](https://gitlab.souvap-univention.de/souvap/tooling/charts/coturn/compare/v1.4.0...v1.4.1) (2023-10-04)
+
+
+### Bug Fixes
+
+* **coturn:** Use "| quote" wherever possible ([49c97ea](https://gitlab.souvap-univention.de/souvap/tooling/charts/coturn/commit/49c97eab6a3f0259a24269271b64e25ae6858315))
+
 # [1.4.0](https://gitlab.souvap-univention.de/souvap/tooling/charts/coturn/compare/v1.3.2...v1.4.0) (2023-09-25)
 
 
