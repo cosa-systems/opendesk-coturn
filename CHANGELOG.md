@@ -1,3 +1,10 @@
+## [1.4.2](https://gitlab.souvap-univention.de/souvap/tooling/charts/coturn/compare/v1.4.1...v1.4.2) (2023-10-04)
+
+
+### Bug Fixes
+
+* **coturn:** Cleanup quotes ([ba7e0fc](https://gitlab.souvap-univention.de/souvap/tooling/charts/coturn/commit/ba7e0fc7f152e2b845514853968d9e7f16c9d1f0))
+
 ## [1.4.1](https://gitlab.souvap-univention.de/souvap/tooling/charts/coturn/compare/v1.4.0...v1.4.1) (2023-10-04)
 
 
