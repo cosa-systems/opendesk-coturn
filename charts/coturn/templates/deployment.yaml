@@ -36,10 +36,10 @@ spec:
     spec:
       imagePullSecrets:
         {{- range .Values.global.imagePullSecrets }}
-        - name: "{{ . }}"
+        - name: {{ . | quote }}
         {{- end }}
         {{- range .Values.imagePullSecrets }}
-        - name: "{{ . }}"
+        - name: {{ . | quote }}
         {{- end }}
       {{- with .Values.affinity }}
       affinity:
@@ -73,12 +73,13 @@ spec:
         {{- end }}
         - name: "config"
           configMap:
-            name: "{{ include "common.names.fullname" . }}"
+            name: {{ include "common.names.fullname" . | quote }}
       containers:
-        - name: "{{ .Chart.Name }}"
+        - name: {{ .Chart.Name | quote }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ coalesce .Values.image.registry .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          # image: "{{ coalesce .Values.image.registry .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: {{ printf "%s/%s:%s" (coalesce .Values.image.registry .Values.global.registry) .Values.image.repository .Values.image.tag | quote }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             {{- with .Values.extraEnvVars }}
