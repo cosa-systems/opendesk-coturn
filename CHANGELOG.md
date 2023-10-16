@@ -1,3 +1,10 @@
+## [1.4.3](https://gitlab.souvap-univention.de/souvap/tooling/charts/coturn/compare/v1.4.2...v1.4.3) (2023-10-16)
+
+
+### Bug Fixes
+
+* **coturn:** Move documentation to helm chart ([6cbc3c0](https://gitlab.souvap-univention.de/souvap/tooling/charts/coturn/commit/6cbc3c01f0fe5b31f77469ba9528ac1fa591211f))
+
 ## [1.4.2](https://gitlab.souvap-univention.de/souvap/tooling/charts/coturn/compare/v1.4.1...v1.4.2) (2023-10-04)
 
 
