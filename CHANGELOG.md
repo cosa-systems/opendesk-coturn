@@ -1,3 +1,10 @@
+## [1.4.4](https://gitlab.opencode.de/bmi/opendesk/components/platform-development/charts/opendesk-coturn/compare/v1.4.3...v1.4.4) (2023-12-20)
+
+
+### Bug Fixes
+
+* **ci:** Move repo to Open CoDE ([f1c69b1](https://gitlab.opencode.de/bmi/opendesk/components/platform-development/charts/opendesk-coturn/commit/f1c69b1a879137469e16dfb6698a9cae45549942))
+
 ## [1.4.3](https://gitlab.souvap-univention.de/souvap/tooling/charts/coturn/compare/v1.4.2...v1.4.3) (2023-10-16)
 
 
