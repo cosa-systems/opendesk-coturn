@@ -1,3 +1,10 @@
+## [1.4.5](https://gitlab.opencode.de/bmi/opendesk/components/platform-development/charts/opendesk-coturn/compare/v1.4.4...v1.4.5) (2023-12-21)
+
+
+### Bug Fixes
+
+* **docs:** Update siging information ([4baa115](https://gitlab.opencode.de/bmi/opendesk/components/platform-development/charts/opendesk-coturn/commit/4baa115916a015721833118eef2f1c02381d3d9d))
+
 ## [1.4.4](https://gitlab.opencode.de/bmi/opendesk/components/platform-development/charts/opendesk-coturn/compare/v1.4.3...v1.4.4) (2023-12-20)
 
 

@@ -16,6 +16,6 @@ keywords:
   - "coturn"
 name: "coturn"
 type: "application"
-version: "1.4.4"
+version: "1.4.5"
 appVersion: "4.6.2"
 ...
