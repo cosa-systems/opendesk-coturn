@@ -80,7 +80,23 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: {{ printf "%s/%s:%s" (coalesce .Values.image.registry .Values.global.registry) .Values.image.repository .Values.image.tag | quote }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.coturn.authentication.existingSecret.name }}
+          # Run the ConfigMap config, but supply static-auth-secret on the CLI
+          # from the env var (secretKeyRef below) so it never lands in the
+          # ConfigMap. coturn merges CLI options on top of the -c config file.
+          command:
+            - "/bin/sh"
+            - "-c"
+            - exec turnserver -c /etc/coturn/turnserver.conf --static-auth-secret="$COTURN_STATIC_AUTH_SECRET"
+          {{- end }}
           env:
+            {{- if .Values.coturn.authentication.existingSecret.name }}
+            - name: "COTURN_STATIC_AUTH_SECRET"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.coturn.authentication.existingSecret.name | quote }}
+                  key: {{ .Values.coturn.authentication.existingSecret.key | quote }}
+            {{- end }}
             {{- with .Values.extraEnvVars }}
               {{- . | toYaml | nindent 12 }}
             {{- end }}

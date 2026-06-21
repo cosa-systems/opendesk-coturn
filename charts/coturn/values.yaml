@@ -323,6 +323,16 @@ coturn:
     # -- specify static-auth-secret
     # don't use user/password when set!
     secret:
+    # Source the static-auth-secret from an existing Kubernetes Secret instead
+    # of an inline value, so it never lands in the ConfigMap / git. When `name`
+    # is set it takes precedence over secret/user/password: the value is injected
+    # as an env var (secretKeyRef) and passed to turnserver via
+    # --static-auth-secret on the command line.
+    existingSecret:
+      # -- name of the Secret holding the static-auth-secret
+      name: ""
+      # -- key within that Secret
+      key: "static-auth-secret"
     # -- specify user and password instead of a secret
     # don't sepcify a secret when user/password is set!
     user:
