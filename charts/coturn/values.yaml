@@ -338,6 +338,9 @@ coturn:
     user:
     # -- specify password for user
     password:
+  # -- Maximum number of simultaneous allocations the server will accept
+  # (total-quota). Empty = coturn default (unlimited).
+  totalQuota:
   # -- activate prometheus
   prometheus: true
   # -- realm

@@ -245,6 +245,11 @@ data:
     user={{ .Values.coturn.authentication.user }}:{{ .Values.coturn.authentication.password }}
     {{- end }}
 
+    # Maximum number of simultaneous allocations the server will accept.
+    {{- if .Values.coturn.totalQuota }}
+    total-quota={{ .Values.coturn.totalQuota }}
+    {{- end }}
+
     # Server name used for
     # the oAuth authentication purposes.
     # The default value is the realm name.
