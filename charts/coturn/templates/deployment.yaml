@@ -76,10 +76,11 @@ spec:
             name: {{ include "common.names.fullname" . | quote }}
       containers:
         - name: {{ .Chart.Name | quote }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+          {{- if .Values.containerSecurityContext.enabled }}
+          securityContext: {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+          {{- end }}
           image: {{ printf "%s/%s:%s" (coalesce .Values.image.registry .Values.global.registry) .Values.image.repository .Values.image.tag | quote }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          imagePullPolicy: {{ .Values.image.imagePullPolicy }}
           {{- if .Values.coturn.authentication.existingSecret.name }}
           # Run the ConfigMap config, but supply static-auth-secret on the CLI
           # from the env var (secretKeyRef below) so it never lands in the
