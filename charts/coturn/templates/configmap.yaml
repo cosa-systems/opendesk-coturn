@@ -230,14 +230,24 @@ data:
     # by a separate program, so this is why that mode is considered 'dynamic'.
     #
     #static-auth-secret=north
-    {{- if .Values.coturn.authentication.secret }}
+    {{- if .Values.coturn.authentication.existingSecret.name }}
+    # static-auth-secret is injected at runtime via --static-auth-secret from an
+    # env var (secretKeyRef, see deployment.yaml) — deliberately NOT written here
+    # so the secret never lands in this ConfigMap.
+    use-auth-secret
+    {{- else if .Values.coturn.authentication.secret }}
     use-auth-secret
     static-auth-secret={{ .Values.coturn.authentication.secret }}
     {{- end }}
 
-    {{- if and (not .Values.coturn.authentication.secret) (and .Values.coturn.authentication.user .Values.coturn.authentication.password) }}
+    {{- if and (not .Values.coturn.authentication.existingSecret.name) (not .Values.coturn.authentication.secret) (and .Values.coturn.authentication.user .Values.coturn.authentication.password) }}
     lt-cred-mech
     user={{ .Values.coturn.authentication.user }}:{{ .Values.coturn.authentication.password }}
+    {{- end }}
+
+    # Maximum number of simultaneous allocations the server will accept.
+    {{- if .Values.coturn.totalQuota }}
+    total-quota={{ .Values.coturn.totalQuota }}
     {{- end }}
 
     # Server name used for

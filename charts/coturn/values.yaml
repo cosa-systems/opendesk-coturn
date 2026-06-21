@@ -112,7 +112,7 @@ fullnameOverride: ""
 #
 image:
   # -- Container registry address. This setting has higher precedence than global.registry.
-  registry: "dockeri.io"
+  registry: "docker.io"
 
   # -- Container repository string.
   repository: "coturn/coturn"
@@ -237,6 +237,15 @@ service:
   # -- How to expose coturn, choices can be LoadBalancer or NodePort
   type: "LoadBalancer"
 
+  # -- Pin a specific LoadBalancer IP (e.g. a reserved cloud IP). Empty = let
+  # the provider assign one. Required for a stable TURN address.
+  loadBalancerIP: ""
+
+  # -- Service externalTrafficPolicy. Set to "Local" to preserve the client
+  # source IP and (on some clouds, e.g. IONOS) to deliver the UDP media relay
+  # on the node running the pod. Empty = cluster default ("Cluster").
+  externalTrafficPolicy: ""
+
   # -- to which NodePort is the external Listening Port fowarded?
   # only needed if type is NodePort
   listeningNodePort: 3478
@@ -314,11 +323,24 @@ coturn:
     # -- specify static-auth-secret
     # don't use user/password when set!
     secret:
+    # Source the static-auth-secret from an existing Kubernetes Secret instead
+    # of an inline value, so it never lands in the ConfigMap / git. When `name`
+    # is set it takes precedence over secret/user/password: the value is injected
+    # as an env var (secretKeyRef) and passed to turnserver via
+    # --static-auth-secret on the command line.
+    existingSecret:
+      # -- name of the Secret holding the static-auth-secret
+      name: ""
+      # -- key within that Secret
+      key: "static-auth-secret"
     # -- specify user and password instead of a secret
     # don't sepcify a secret when user/password is set!
     user:
     # -- specify password for user
     password:
+  # -- Maximum number of simultaneous allocations the server will accept
+  # (total-quota). Empty = coturn default (unlimited).
+  totalQuota:
   # -- activate prometheus
   prometheus: true
   # -- realm
