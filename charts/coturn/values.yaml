@@ -63,13 +63,20 @@ commonLabels: {}
 # Security Context.
 # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
 containerSecurityContext:
-  # -- Enable container privileged escalation.
-  allowPrivilegeEscalation: false
+  # -- Allow privilege escalation. MUST be true for coturn: the coturn/coturn
+  # image ships turnserver as a setcap binary (cap_net_bind_service+ep), and the
+  # kernel refuses to exec a file with capabilities under no_new_privs (which
+  # allowPrivilegeEscalation=false sets) — it fails with "Operation not
+  # permitted". The capability set is still constrained by `capabilities` below.
+  allowPrivilegeEscalation: true
 
-  # -- Security capabilities for container.
+  # -- Security capabilities for container. Drop everything and add back only
+  # NET_BIND_SERVICE (what turnserver's setcap binary expects).
   capabilities:
     drop:
       - "ALL"
+    add:
+      - "NET_BIND_SERVICE"
 
   # -- Enable security context.
   enabled: true
