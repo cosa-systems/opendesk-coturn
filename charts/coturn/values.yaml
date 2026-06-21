@@ -112,7 +112,7 @@ fullnameOverride: ""
 #
 image:
   # -- Container registry address. This setting has higher precedence than global.registry.
-  registry: "dockeri.io"
+  registry: "docker.io"
 
   # -- Container repository string.
   repository: "coturn/coturn"
