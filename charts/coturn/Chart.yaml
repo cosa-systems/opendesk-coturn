@@ -8,7 +8,9 @@ apiVersion: "v2"
 dependencies:
   - name: "common"
     version: "^2.x.x"
-    repository: "https://charts.bitnami.com/bitnami"
+    # charts.bitnami.com is deprecated/dead; use the OpenDesk project's
+    # bitnami mirror on opencode (anonymous CE read), same as opendesk-alerts.
+    repository: "oci://registry.opencode.de/bmi/opendesk/components/external/charts/bitnami-charts"
 description: "A Helm chart for running coturn"
 home: "https://github.com/coturn/coturn"
 keywords:
