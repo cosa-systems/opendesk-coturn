@@ -74,6 +74,11 @@ spec:
         - name: "config"
           configMap:
             name: {{ include "common.names.fullname" . | quote }}
+        # Writable runtime dir for turnserver's pidfile (/var/run/turnserver.pid).
+        # Required under readOnlyRootFilesystem, otherwise coturn logs
+        # "Cannot create pid file" on startup.
+        - name: "run"
+          emptyDir: {}
       containers:
         - name: {{ .Chart.Name | quote }}
           {{- if .Values.containerSecurityContext.enabled }}
@@ -121,6 +126,11 @@ spec:
               containerPort: {{ $port }}
               protocol: "UDP"
             {{- end }}
+            {{- if .Values.coturn.prometheus }}
+            - name: "metrics"
+              containerPort: 9641
+              protocol: "TCP"
+            {{- end }}
           readinessProbe:
             tcpSocket:
               port: "port-tcp"
@@ -150,4 +160,6 @@ spec:
             {{- end }}
             - name: "config"
               mountPath: "/etc/coturn"
+            - name: "run"
+              mountPath: "/var/run"
 ...
