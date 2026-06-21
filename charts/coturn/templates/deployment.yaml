@@ -121,6 +121,11 @@ spec:
               containerPort: {{ $port }}
               protocol: "UDP"
             {{- end }}
+            {{- if .Values.coturn.prometheus }}
+            - name: "metrics"
+              containerPort: 9641
+              protocol: "TCP"
+            {{- end }}
           readinessProbe:
             tcpSocket:
               port: "port-tcp"
