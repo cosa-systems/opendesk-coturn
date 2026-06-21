@@ -146,6 +146,14 @@ data:
     verbose
     {{- end }}
 
+    # Log to stdout (captured by the pod log) rather than a log file. Required
+    # to run non-root with a read-only root filesystem.
+    {{- if .Values.coturn.logToStdout }}
+    log-file=stdout
+    simple-log
+    no-stdout-log=0
+    {{- end }}
+
     # Uncomment to run TURN server in 'extra' verbose mode.
     # This mode is very annoying and produces lots of output.
     # Not recommended under normal circumstances.
