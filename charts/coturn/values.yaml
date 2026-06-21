@@ -237,6 +237,15 @@ service:
   # -- How to expose coturn, choices can be LoadBalancer or NodePort
   type: "LoadBalancer"
 
+  # -- Pin a specific LoadBalancer IP (e.g. a reserved cloud IP). Empty = let
+  # the provider assign one. Required for a stable TURN address.
+  loadBalancerIP: ""
+
+  # -- Service externalTrafficPolicy. Set to "Local" to preserve the client
+  # source IP and (on some clouds, e.g. IONOS) to deliver the UDP media relay
+  # on the node running the pod. Empty = cluster default ("Cluster").
+  externalTrafficPolicy: ""
+
   # -- to which NodePort is the external Listening Port fowarded?
   # only needed if type is NodePort
   listeningNodePort: 3478

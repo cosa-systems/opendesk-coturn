@@ -28,6 +28,12 @@ metadata:
   {{- end }}
 spec:
   type: {{ .Values.service.type | quote }}
+  {{- if .Values.service.loadBalancerIP }}
+  loadBalancerIP: {{ .Values.service.loadBalancerIP | quote }}
+  {{- end }}
+  {{- if .Values.service.externalTrafficPolicy }}
+  externalTrafficPolicy: {{ .Values.service.externalTrafficPolicy | quote }}
+  {{- end }}
   {{- if .Values.service.sessionAffinity.enabled }}
   sessionAffinity: "ClientIP"
   sessionAffinityConfig:
