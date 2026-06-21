@@ -326,6 +326,10 @@ coturn:
   maxPort: 65535
   # -- be verbose
   verbose: false
+  # -- Log to stdout instead of a log file. Recommended in containers (the pod
+  # log captures it) and required to run non-root with a read-only root
+  # filesystem, since coturn otherwise tries to write a log file to disk.
+  logToStdout: true
   authentication:
     # -- specify static-auth-secret
     # don't use user/password when set!
