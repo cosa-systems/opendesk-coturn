@@ -48,13 +48,17 @@ helm install my-release opendesk-coturn/coturn
 | containerSecurityContext.runAsNonRoot | bool | `true` | Run container as user. |
 | containerSecurityContext.runAsUser | int | `65534` | Process user id. |
 | containerSecurityContext.seccompProfile.type | string | `"RuntimeDefault"` | Disallow custom Seccomp profile by setting it to RuntimeDefault. |
+| coturn.allowedPeerIPs | list | `[]` | Peer addresses relayed to despite `deniedPeerIPs` (`allowed-peer-ip`). |
 | coturn.authentication.password | string | `nil` | specify password for user |
 | coturn.authentication.secret | string | `nil` | specify static-auth-secret don't use user/password when set! |
 | coturn.authentication.user | string | `nil` | specify user and password instead of a secret don't sepcify a secret when user/password is set! |
+| coturn.deniedPeerIPs | list | `["0.0.0.0-0.255.255.255","10.0.0.0-10.255.255.255","100.64.0.0-100.127.255.255","127.0.0.0-127.255.255.255","169.254.0.0-169.254.255.255","172.16.0.0-172.31.255.255","192.0.0.0-192.0.0.255","192.0.2.0-192.0.2.255","192.88.99.0-192.88.99.255","192.168.0.0-192.168.255.255","198.18.0.0-198.19.255.255","198.51.100.0-198.51.100.255","203.0.113.0-203.0.113.255","240.0.0.0-255.255.255.255","::1","64:ff9b::-64:ff9b::ffff:ffff","::ffff:0.0.0.0-::ffff:255.255.255.255","100::-100::ffff:ffff:ffff:ffff","2001::-2001:1ff:ffff:ffff:ffff:ffff:ffff:ffff","2002::-2002:ffff:ffff:ffff:ffff:ffff:ffff:ffff","fc00::-fdff:ffff:ffff:ffff:ffff:ffff:ffff:ffff","fe80::-febf:ffff:ffff:ffff:ffff:ffff:ffff:ffff"]` | Peer address ranges the server refuses to relay to (`denied-peer-ip`), so that TURN credentials cannot be used to reach addresses that are not reachable from the internet, such as the cluster's pods and services. Covers private, loopback, link-local, shared (100.64.0.0/10), documentation and reserved ranges and their IPv6 counterparts. Set to `[]` to relay to any address. |
 | coturn.externalIP | string | `nil` |  |
 | coturn.listeningPort | int | `3478` | listening Port (TCP & UDP) |
 | coturn.maxPort | int | `65535` | upper bound of the UDP relay endpoints |
 | coturn.minPort | int | `49152` | lower bound of the UDP relay endpoints |
+| coturn.noMulticastPeers | bool | `true` | Refuse peers on multicast and broadcast addresses (`no-multicast-peers`). |
+| coturn.noTcpRelay | bool | `true` | Refuse TCP relay allocations (RFC 6062, `no-tcp-relay`); WebRTC clients only use UDP relays. |
 | coturn.prometheus | bool | `true` | activate prometheus |
 | coturn.realm | string | `"turn.develop.souvap-univention.de"` | realm |
 | coturn.serverName | string | `nil` | server name, defaults to realm |

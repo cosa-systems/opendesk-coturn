@@ -333,6 +333,9 @@ data:
     # By default TCP relay endpoints are enabled (like in RFC 6062).
     #
     #no-tcp-relay
+    {{- if .Values.coturn.noTcpRelay }}
+    no-tcp-relay
+    {{- end }}
 
     # Uncomment if extra security is desired,
     # with nonce value having a limited lifetime.
@@ -449,6 +452,9 @@ data:
     # This is an extra security measure.
     #
     #no-multicast-peers
+    {{- if .Values.coturn.noMulticastPeers }}
+    no-multicast-peers
+    {{- end }}
 
     # Option to set the max time, in seconds, allowed for full allocation establishment.
     # Default is 60 seconds.
@@ -468,6 +474,12 @@ data:
     # denied-peer-ip=83.166.64.0-83.166.95.255
     # allowed-peer-ip=83.166.68.45
     # denied-peer-ip=10.0.0.0-10.255.255.255
+    {{- range .Values.coturn.deniedPeerIPs }}
+    denied-peer-ip={{ . }}
+    {{- end }}
+    {{- range .Values.coturn.allowedPeerIPs }}
+    allowed-peer-ip={{ . }}
+    {{- end }}
 
     # Require authentication of the STUN Binding request.
     # By default, the clients are allowed anonymous access to the STUN Binding functionality.
